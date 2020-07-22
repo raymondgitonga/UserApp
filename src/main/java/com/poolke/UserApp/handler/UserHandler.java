@@ -1,8 +1,6 @@
 package com.poolke.UserApp.handler;
 
-import com.poolke.UserApp.entity.User;
 import com.poolke.UserApp.payload.UserRequest;
-import com.poolke.UserApp.repository.UserRepository;
 import com.poolke.UserApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
