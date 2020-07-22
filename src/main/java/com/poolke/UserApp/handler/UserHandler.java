@@ -71,6 +71,7 @@ public class UserHandler {
                 ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(userService.getUserById(userRequest), UserRequest.class)
+                        .switchIfEmpty(ServerResponse.notFound().build())
         );
     }
 

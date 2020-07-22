@@ -37,6 +37,8 @@ dependencies {
 	//bcrypt
 	implementation 'at.favre.lib:bcrypt:0.9.0'
 
+	//blockhound
+	implementation 'io.projectreactor.tools:blockhound:1.0.1.RELEASE'
 
 	//tests
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
