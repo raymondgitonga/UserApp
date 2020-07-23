@@ -11,8 +11,4 @@ public class UserAppApplication {
 		SpringApplication.run(UserAppApplication.class, args);
 	}
 
-	static {
-		BlockHound.install();
-	}
-
 }
