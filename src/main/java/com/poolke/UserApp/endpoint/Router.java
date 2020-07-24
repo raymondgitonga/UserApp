@@ -27,7 +27,9 @@ public class Router {
                         userHandler::updatePassword)
                 .andRoute(GET(GET_USER_BY_EMAIL_V1).and(accept(MediaType.APPLICATION_JSON)),
                         userHandler::getUserByEmail)
-                .andRoute(GET(GET_USER_DETAILS).and(accept(MediaType.APPLICATION_JSON)),
-                        userHandler::getUserById);
+                .andRoute(GET(GET_USER_DETAILS_V1).and(accept(MediaType.APPLICATION_JSON)),
+                        userHandler::getUserById)
+                .andRoute(GET(GET_ALL_USERS_V1).and(accept(MediaType.APPLICATION_JSON)),
+                        userHandler::getAllUsers);
     }
 }

@@ -1,6 +1,7 @@
 package com.poolke.UserApp.service;
 
 import com.poolke.UserApp.entity.User;
+import com.poolke.UserApp.payload.AllUsersResponse;
 import com.poolke.UserApp.payload.UserDto;
 import com.poolke.UserApp.payload.UserRequest;
 import com.poolke.UserApp.payload.UserResponse;
@@ -9,7 +10,10 @@ import com.poolke.UserApp.shared.Utils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -37,7 +41,7 @@ public class UserService {
                                 .map(savedUser -> {
                                     userResponse.setSuccess(true);
                                     userResponse.setMessage("success");
-                                    userResponse.setUserData(new UserDto(savedUser.getUserId(), savedUser.getName(),
+                                    userResponse.setData(new UserDto(savedUser.getUserId(), savedUser.getName(),
                                             savedUser.getEmail(), savedUser.getPhoneNumber()));
                                     return userResponse;
                                 })
@@ -52,7 +56,7 @@ public class UserService {
                     if (utils.checkPassword(userRequest.getPassword())) {
                         userResponse.setSuccess(true);
                         userResponse.setMessage("success");
-                        userResponse.setUserData(new UserDto(user.getUserId(),
+                        userResponse.setData(new UserDto(user.getUserId(),
                                 user.getName(), user.getEmail(), user.getPhoneNumber()));
                         return userResponse;
                     }
@@ -79,7 +83,7 @@ public class UserService {
                 .map(userDetails ->{
                     userResponse.setSuccess(true);
                     userResponse.setMessage("success");
-                    userResponse.setUserData(new UserDto(userDetails.getUserId(),
+                    userResponse.setData(new UserDto(userDetails.getUserId(),
                             userDetails.getName(), userDetails.getEmail(), userDetails.getPhoneNumber()));
                     return userResponse;
                 })
@@ -92,10 +96,25 @@ public class UserService {
                 .map(userDetails ->{
                     userResponse.setSuccess(true);
                     userResponse.setMessage("success");
-                    userResponse.setUserData(new UserDto(userDetails.getUserId(),
+                    userResponse.setData(new UserDto(userDetails.getUserId(),
                             userDetails.getName(), userDetails.getEmail(), userDetails.getPhoneNumber()));
                     return userResponse;
                 })
                 .switchIfEmpty(Mono.just(new UserResponse(false, "fail", null)));
+    }
+
+    // Todo clean up
+    public Flux<AllUsersResponse> getAllUsers() {
+        AllUsersResponse allUsersResponse = new AllUsersResponse();
+        allUsersResponse.setSuccess(true);
+        allUsersResponse.setMessage("success");
+
+        return userRepository.findAll()
+                .map(users ->{
+                    allUsersResponse.setData(List.of(
+                            new UserDto(users.getUserId(),users.getName(),users.getEmail(),
+                            users.getPhoneNumber())));
+                    return allUsersResponse;
+                });
     }
 }

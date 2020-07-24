@@ -75,4 +75,15 @@ public class UserHandler {
         );
     }
 
+    public Mono<ServerResponse> getAllUsers(ServerRequest serverRequest) {
+        Mono<UserRequest> user = serverRequest.bodyToMono(UserRequest.class);
+
+        return user.flatMap(userRequest ->
+                ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(userService.getAllUsers(), UserRequest.class)
+                        .switchIfEmpty(ServerResponse.notFound().build())
+        );
+    }
+
 }
